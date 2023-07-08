@@ -1,4 +1,7 @@
-﻿namespace GameDesign
+﻿using System.Net.Mime;
+using System.Windows.Forms;
+
+namespace GameDesign
 {
     static class Program
     {
@@ -7,6 +10,7 @@
         /// </summary>
         static void Main()
         {
+            Application.EnableVisualStyles();
             FormsManager.Run();
         }
     }

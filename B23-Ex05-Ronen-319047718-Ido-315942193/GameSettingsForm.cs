@@ -21,11 +21,17 @@ namespace GameDesign
             {
                 m_TextBoxPlayerTwo.Text = "";
                 m_TextBoxPlayerTwo.Enabled = true;
+                radio_EasyRadioButton.Enabled = false;
+                radio_MediumRadioButton.Enabled = false;
+                radio_HardRadioButton.Enabled = false;
             }
             else
             {
                 m_TextBoxPlayerTwo.Text = "[Computer]";
                 m_TextBoxPlayerTwo.Enabled = false;
+                radio_EasyRadioButton.Enabled = true;
+                radio_MediumRadioButton.Enabled = true;
+                radio_HardRadioButton.Enabled = true;
             }
         }
 
@@ -44,17 +50,48 @@ namespace GameDesign
 
         private void ButtonStartGame_Click(object sender, EventArgs e)
         {
-            if (!m_CheckBoxIsPlayingMode.Checked)
+            if (!cb_SecondPlayer.Checked)
             {
                 m_TextBoxPlayerTwo.Text = k_AiName;
             }
 
             m_GameSettings = new GameSettings(m_TextBoxPlayerOne.Text,
-                m_TextBoxPlayerTwo.Text, m_NumericUpDownRowsAmount.Value,
-                m_NumericUpDownColsAmount.Value,
-                m_CheckBoxIsPlayingMode.Checked);
+                m_TextBoxPlayerTwo.Text, numericUD_BoardSize.Value,
+                cb_SecondPlayer.Checked);
 
             this.Dispose();
+        }
+
+        private void rd_EasyRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radio_EasyRadioButton.Checked)
+            {
+                radio_MediumRadioButton.Checked = false;
+                radio_HardRadioButton.Checked = false;
+            }
+        }
+
+        private void rd_MediumRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radio_MediumRadioButton.Checked)
+            {
+                radio_EasyRadioButton.Checked = false;
+                radio_HardRadioButton.Checked = false;
+            }
+        }
+
+        private void rd_HardRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radio_MediumRadioButton.Checked)
+            {
+                radio_EasyRadioButton.Checked = false;
+                radio_HardRadioButton.Checked = false;
+            }
+        }
+
+        private void GameSettingForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

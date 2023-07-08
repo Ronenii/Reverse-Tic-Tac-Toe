@@ -38,11 +38,6 @@ namespace GameDesign
                 isValid = false;
             }
 
-            if (i_Settings.NumberOfRows != i_Settings.NumberOfCols)
-            {
-                isValid = false;
-            }
-
             return isValid;
         }
     }

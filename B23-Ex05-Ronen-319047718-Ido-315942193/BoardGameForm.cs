@@ -16,7 +16,7 @@ namespace GameDesign
             InitializeComponent();
             r_GameManager = new GameManager(m_Settings, this);
             FormClosing += BoardGameForm_FormClosing;
-            CreateButtonsTable(m_Settings.NumberOfRows, m_Settings.NumberOfCols);
+            CreateButtonsTable(m_Settings.BoardSize, m_Settings.BoardSize);
             CreateScoreTracking();
         }
 
@@ -42,7 +42,7 @@ namespace GameDesign
         {
             Controls.Clear();
             buttonToPointDictionary.Clear();
-            CreateButtonsTable(m_Settings.NumberOfRows, m_Settings.NumberOfCols);
+            CreateButtonsTable(m_Settings.BoardSize, m_Settings.BoardSize);
             changeHighlightedPlayer(ePlayers.PlayerOne);
             CreateScoreTracking();
         }
