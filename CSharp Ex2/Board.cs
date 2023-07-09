@@ -19,6 +19,8 @@ namespace GameLogic
     public class Board
     {
         private int m_BoardSize;
+        public int BoardSize => m_BoardSize;
+
         private int m_TurnsLeft;
         private eCellType[,] m_BoardCells = null;
         private int[] m_OccupiedCellsInRowBucket; // Each index of this array represents the number of occupied cells in the corresponding row index
@@ -98,6 +100,37 @@ namespace GameLogic
             {
                 m_OccupiedCellsInDiagonalBucket = value;
             }
+        }
+
+        public Board Copy()
+        {
+            Board CopiedBoard = new Board(this.BoardSize);
+            for (int i = 0; i < CopiedBoard.BoardSize; i++)
+            {
+                for (int j = 0; j < CopiedBoard.BoardSize; j++)
+                {
+                    CopiedBoard.BoardCells[i, j] = this.BoardCells[i, j];
+                }
+            }
+
+            CopiedBoard.TurnsLeft = this.TurnsLeft;
+
+            for (int i = 0; i < this.OccupiedCellsInColumnBucket.Length; i++)
+            {
+                CopiedBoard.OccupiedCellsInColumnBucket[i] = this.OccupiedCellsInColumnBucket[i];
+            }
+
+            for (int i = 0; i < this.OccupiedCellsInRowBucket.Length; i++)
+            {
+                CopiedBoard.OccupiedCellsInRowBucket[i] = this.OccupiedCellsInRowBucket[i];
+            }
+
+            for (int i = 0; i < this.OccupiedCellsInDiagonalBucketBucket.Length; i++)
+            {
+                CopiedBoard.OccupiedCellsInDiagonalBucketBucket[i] = this.OccupiedCellsInDiagonalBucketBucket[i];
+            }
+
+            return CopiedBoard;
         }
 
         // Updates the given cell to the given player's shape. 
