@@ -50,9 +50,26 @@ namespace GameDesign
 
         private void ButtonStartGame_Click(object sender, EventArgs e)
         {
+            int difficulty = 0;
+
             if (!cb_SecondPlayer.Checked)
             {
                 m_TextBoxPlayerTwo.Text = k_AiName;
+            }
+
+            if (radio_EasyRadioButton.Checked)
+            {
+                difficulty = 1;
+            }
+
+            if (radio_MediumRadioButton.Checked)
+            {
+                difficulty = 2;
+            }
+
+            if (radio_HardRadioButton.Checked)
+            {
+                difficulty = 3;
             }
 
             m_GameSettings = new GameSettings(m_TextBoxPlayerOne.Text,

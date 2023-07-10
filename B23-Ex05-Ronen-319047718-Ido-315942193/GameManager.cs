@@ -14,7 +14,7 @@ namespace GameDesign
         public GameManager(GameSettings i_Settings, BoardGameForm i_BoardGameForm)
         {
             m_Game = new Game();
-            m_Game.InitGame((int)i_Settings.BoardSize, i_Settings.IsModeAgainstPlayer, i_Settings.PlayerOneName, i_Settings.PlayerTwoName);
+            m_Game.InitGame((int)i_Settings.BoardSize, i_Settings.ModeAgainstPlayer, i_Settings.PlayerOneName, i_Settings.PlayerTwoName);
             r_GameBoardForm = i_BoardGameForm;
             r_GameBoardForm.changeHighlightedPlayer(m_Game.CurrentPlayer.PlayerId);
             m_Settings = i_Settings;
@@ -30,7 +30,7 @@ namespace GameDesign
             {
                 r_GameBoardForm.HandleEndGame();
             }
-            else if (!m_Settings.IsModeAgainstPlayer)
+            else if (!m_Settings.ModeAgainstPlayer)
             {
                 playAiTurn();
             }

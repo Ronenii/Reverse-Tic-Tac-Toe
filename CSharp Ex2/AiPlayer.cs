@@ -7,6 +7,13 @@ namespace GameLogic
 {
     public class AiPlayer: Player
     {
+        private enum eGameState
+        {
+            P1Wins,
+            P2Wins,
+            Draw,
+            Ongoing
+        }
         private class GameStateNode
         {
             public Board CurrentBoard { get; set; }
@@ -54,9 +61,140 @@ namespace GameLogic
             return bestMove;
         }
 
-        private int AlphaBeta(GameStateNode node, int depth, int alpha, int beta, bool isMaximizingPlayer)
+        private int AlphaBeta(GameStateNode i_Node, int i_Depth, int i_Alpha, int i_Beta, bool i_IsMaximizingPlayer)
         {
+            eGameState gameState = getGameState(i_Node.CurrentBoard);
+            if (i_Depth == 0 || gameState != eGameState.Ongoing)
+            {
+                i_Node.Score = getScore(gameState);
+                return i_Node.Score;
+            }
 
+            if (i_IsMaximizingPlayer)
+            {
+                int maxEval = int.MinValue;
+
+                foreach (Point move in getAvailableMoves(i_Node.CurrentBoard))
+                {
+                    Board newBoard = i_Node.CurrentBoard.Copy();
+                    newBoard.BoardCells[move.X, move.Y] = this.CellType;
+
+                    GameStateNode newState = new GameStateNode
+                    {
+                        CurrentBoard = newBoard,
+                        CurrentPlayerCellType = getOpponent(this.CellType),
+                        LastMove = move,
+                        Score = 0
+                    };
+
+                    int eval = AlphaBeta(newState, i_Depth - 1, i_Alpha, i_Beta, false);
+                    maxEval = Math.Max(maxEval, eval);
+                    i_Alpha = Math.Max(i_Alpha, eval);
+                    if (i_Beta <= i_Alpha)
+                    {
+                        break;
+                    }
+                }
+
+                i_Node.Score = maxEval;
+                return maxEval;
+            }
+            else
+            {
+                int minEval = int.MaxValue;
+
+                foreach (Point move in getAvailableMoves(i_Node.CurrentBoard))
+                {
+                    Board newBoard = i_Node.CurrentBoard.Copy();
+                    newBoard.BoardCells[move.X, move.Y] = this.CellType;
+
+                    GameStateNode newState = new GameStateNode
+                    {
+                        CurrentBoard = newBoard,
+                        CurrentPlayerCellType = getOpponent(this.CellType),
+                        LastMove = move,
+                        Score = 0
+                    };
+
+                    int eval = AlphaBeta(newState, i_Depth - 1, i_Alpha, i_Beta, true);
+                    minEval = Math.Min(minEval, eval);
+                    i_Alpha = Math.Min(i_Beta, eval);
+                    if (i_Beta <= i_Alpha)
+                    {
+                        break;
+                    }
+                }
+
+                i_Node.Score = minEval;
+                return minEval;
+            }
+        }
+
+        // Returns the current state of the game on the given board
+        private eGameState getGameState(Board i_Board)
+        {
+            if (i_Board.TurnsLeft == 0)
+            {
+                return eGameState.Draw;
+            }
+
+            for (int i = 0; i < i_Board.BoardSize; i++)
+            {
+                if (i_Board.IsColumnSameShape(i))
+                {
+                    if (i_Board.BoardCells[0, i] == CellType)
+                    {
+                        return eGameState.P2Wins;
+                    }
+                    else
+                    {
+                        return eGameState.P1Wins;
+                    }
+                }
+
+                if (i_Board.IsRowSameShape(i))
+                {
+                    if (i_Board.BoardCells[i, 0] == CellType)
+                    {
+                        return eGameState.P2Wins;
+                    }
+                    else
+                    {
+                        return eGameState.P1Wins;
+                    }
+                }
+
+                if (i_Board.IsDiagonalSameShape(eDiagonal.TopLeftToBottomRight) || i_Board.IsDiagonalSameShape(eDiagonal.BottomLeftToTopRight))
+                {
+                    if (i_Board.BoardCells[i, i] == CellType)
+                    {
+                        return eGameState.P2Wins;
+                    }
+                    else
+                    {
+                        return eGameState.P1Wins;
+                    }
+                }
+            }
+
+            return eGameState.Ongoing;
+        }
+
+        // Evaluates a score for the move based on the given game state
+        private int getScore(eGameState i_CurrentGameState)
+        {
+            if (i_CurrentGameState == eGameState.P1Wins)
+            {
+                return -1;
+            }
+            else if (i_CurrentGameState == eGameState.P2Wins)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         // Returns all available moves in the board.

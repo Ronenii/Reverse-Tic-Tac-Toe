@@ -33,7 +33,7 @@ namespace GameDesign
                 isValid = false;
             }
 
-            if (!i_Settings.IsModeAgainstPlayer && i_Settings.PlayerTwoName.Equals(string.Empty))
+            if (!i_Settings.ModeAgainstPlayer && i_Settings.PlayerTwoName.Equals(string.Empty))
             {
                 isValid = false;
             }
