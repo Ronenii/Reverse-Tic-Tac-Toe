@@ -14,7 +14,7 @@ namespace GameDesign
         public GameManager(GameSettings i_Settings, BoardGameForm i_BoardGameForm)
         {
             m_Game = new Game();
-            m_Game.InitGame((int)i_Settings.BoardSize, i_Settings.ModeAgainstPlayer, i_Settings.PlayerOneName, i_Settings.PlayerTwoName);
+            m_Game.InitGame((int)i_Settings.BoardSize, i_Settings.ModeAgainstPlayer, i_Settings.PlayerOneName, i_Settings.PlayerTwoName, i_Settings.Difficulty);
             r_GameBoardForm = i_BoardGameForm;
             r_GameBoardForm.changeHighlightedPlayer(m_Game.CurrentPlayer.PlayerId);
             m_Settings = i_Settings;
@@ -25,7 +25,7 @@ namespace GameDesign
         {
             m_Game.HumanTurn(i_ButtonPoint);
             updateMoveOnBoard(i_ClickedButton);
-
+            m_Game.ChangePlayer();
             if (checkGameEnded())
             {
                 r_GameBoardForm.HandleEndGame();
@@ -33,6 +33,7 @@ namespace GameDesign
             else if (!m_Settings.ModeAgainstPlayer)
             {
                 playAiTurn();
+                m_Game.ChangePlayer();
             }
         }
 
@@ -67,7 +68,6 @@ namespace GameDesign
         private void updateMoveOnBoard(Button i_ClickedButton)
         {
             changeButtonText(i_ClickedButton);
-            m_Game.ChangePlayer();
             r_GameBoardForm.changeHighlightedPlayer(m_Game.CurrentPlayer.PlayerId);
         }
 

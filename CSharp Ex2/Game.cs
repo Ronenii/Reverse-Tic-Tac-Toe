@@ -49,7 +49,7 @@ namespace GameLogic
 
 
         // Initializes the game board and the players.
-        public void InitGame(int i_BoardSize, bool i_IsGameAgainstPlayer, string i_PlayerOneName, string i_PlayerTwoName)
+        public void InitGame(int i_BoardSize, bool i_IsGameAgainstPlayer, string i_PlayerOneName, string i_PlayerTwoName, int i_Difficulty)
         {
             eMode gameMode;
             if (i_IsGameAgainstPlayer)
@@ -61,18 +61,18 @@ namespace GameLogic
                 gameMode = eMode.Computer;
             }
 
-            m_FirstPlayer =  new Player(ePlayers.PlayerOne, 0, i_PlayerOneName);
+            m_FirstPlayer =  new Player(ePlayers.PlayerOne,eCellType.Cross, 0, i_PlayerOneName);
             m_CurrentPlayer = m_FirstPlayer;
             m_BoardSize = i_BoardSize;
             m_Board = new Board(i_BoardSize);
             switch (gameMode)
             {
                 case eMode.Human:
-                    m_SecondPlayer = new Player(ePlayers.PlayerTwo, 0, i_PlayerTwoName);
+                    m_SecondPlayer = new Player(ePlayers.PlayerTwo,eCellType.Circle, 0, i_PlayerTwoName);
                     break;
                 case eMode.Computer:
-                    m_AiPlayer = new AiPlayer(ePlayers.PlayerTwo, 0);
-                    m_SecondPlayer = m_AiPlayer.PlayerData;
+                    m_AiPlayer = new AiPlayer(ePlayers.PlayerTwo, 0, eCellType.Circle, i_Difficulty);
+                    m_SecondPlayer = m_AiPlayer;
                     break;
             }
         }

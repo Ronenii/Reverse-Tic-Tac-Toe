@@ -59,22 +59,22 @@ namespace GameDesign
 
             if (radio_EasyRadioButton.Checked)
             {
-                difficulty = 1;
+                difficulty = 3;
             }
 
             if (radio_MediumRadioButton.Checked)
             {
-                difficulty = 2;
+                difficulty = 5;
             }
 
             if (radio_HardRadioButton.Checked)
             {
-                difficulty = 3;
+                difficulty = 7;
             }
 
             m_GameSettings = new GameSettings(m_TextBoxPlayerOne.Text,
                 m_TextBoxPlayerTwo.Text, numericUD_BoardSize.Value,
-                cb_SecondPlayer.Checked);
+                cb_SecondPlayer.Checked,difficulty);
 
             this.Dispose();
         }

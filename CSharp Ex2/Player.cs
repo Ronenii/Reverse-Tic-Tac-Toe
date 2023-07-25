@@ -9,7 +9,7 @@
     public class Player
     {
         private ePlayers m_PlayerId;
-        public ePlayers PlayerId { get; set; }
+        public ePlayers PlayerId => m_PlayerId;
 
         private int m_Score;
         public int Score { get; set; }

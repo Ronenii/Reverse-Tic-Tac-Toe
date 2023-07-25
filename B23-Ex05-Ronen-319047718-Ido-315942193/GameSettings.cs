@@ -24,5 +24,7 @@
         public decimal BoardSize => m_BoardSize;
 
         public bool ModeAgainstPlayer => m_ModeAgainstPlayer;
+
+        public int Difficulty => r_Difficulty;
     }
 }
